@@ -1,12 +1,15 @@
 package com.baseball.game.ui.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RequestGuessTest {
 
@@ -17,10 +20,10 @@ class RequestGuessTest {
     @DisplayName("빈 값 체크")
     void beanValidationBlank() {
         //given
-        RequestGuess requestGuess = RequestGuess.builder().playerNumber("").build();
+        GuessRequest requestGuess = GuessRequest.builder().playerNumber("").build();
 
         //when
-        Set<ConstraintViolation<RequestGuess>> violations = validator.validate(requestGuess);
+        Set<ConstraintViolation<GuessRequest>> violations = validator.validate(requestGuess);
         if (isPrint) printValidation(violations);
 
         //then
@@ -31,10 +34,10 @@ class RequestGuessTest {
     @DisplayName("입력값이 3자리 인지 체크")
     void beanValidationSize() {
         //given
-        RequestGuess requestGuess = RequestGuess.builder().playerNumber("1234").build();
+        GuessRequest requestGuess = GuessRequest.builder().playerNumber("1234").build();
 
         //when
-        Set<ConstraintViolation<RequestGuess>> violations = validator.validate(requestGuess);
+        Set<ConstraintViolation<GuessRequest>> violations = validator.validate(requestGuess);
         if (isPrint) printValidation(violations);
 
         //then
@@ -45,18 +48,18 @@ class RequestGuessTest {
     @DisplayName("3자리의 숫자만 입력했는지 체크")
     void beanValidationPattern() {
         //given
-        RequestGuess requestGuess = RequestGuess.builder().playerNumber("12A34").build();
+        GuessRequest requestGuess = GuessRequest.builder().playerNumber("12A34").build();
 
         //when
-        Set<ConstraintViolation<RequestGuess>> violations = validator.validate(requestGuess);
+        Set<ConstraintViolation<GuessRequest>> violations = validator.validate(requestGuess);
         if (isPrint) printValidation(violations);
 
         //then
         assertThat(violations.size()).isEqualTo(2);
     }
 
-    private void printValidation(Set<ConstraintViolation<RequestGuess>> violations) {
-        for (ConstraintViolation<RequestGuess> violation : violations) {
+    private void printValidation(Set<ConstraintViolation<GuessRequest>> violations) {
+        for (ConstraintViolation<GuessRequest> violation : violations) {
             System.out.println("violation = " + violation.getMessage());
         }
     }

@@ -1,14 +1,11 @@
 package com.baseball;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
 
 public class DevTest {
 
     @Test
-    void countingCharAndIndexOf() {
+    void countingStrikeCheck() {
         //given
         int strike = 0;
         String answerNumbers = "456";
@@ -24,6 +21,24 @@ public class DevTest {
 
         //then
         System.out.println("strike = " + strike);
+    }
+
+    @Test
+    void countingBallCheck() {
+        //given
+        int ball = 0;
+        String answerNumbers = "456";
+        String playerNumbers = "354";
+
+        //when
+        for (int i = 0; i < answerNumbers.length(); i++) {
+            if (playerNumbers.contains(Character.toString(answerNumbers.charAt(i)))) {
+                ball += 1;
+            }
+        }
+
+        //then
+        System.out.println("ball = " + ball);
     }
 
 
