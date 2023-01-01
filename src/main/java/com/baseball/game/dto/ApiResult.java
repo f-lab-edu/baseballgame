@@ -1,12 +1,15 @@
-package com.baseball.game.ui.dto;
+package com.baseball.game.dto;
 
 import lombok.Getter;
+import lombok.ToString;
 
+import com.baseball.game.dto.data.ErrorData;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@ToString
 @Getter
-public class ApiResultResponse<T> {
+public class ApiResult<T> {
 
     @JsonProperty("success")
     private final boolean success;
@@ -18,9 +21,17 @@ public class ApiResultResponse<T> {
     @JsonProperty("error")
     private final ErrorData error;
 
-    public ApiResultResponse(boolean success, T data, ErrorData error) {
+    private ApiResult(boolean success, T data, ErrorData error) {
         this.success = success;
         this.data = data;
         this.error = error;
+    }
+
+    public static <T> ApiResult<T> success(T data) {
+        return new ApiResult<>(true, data, null);
+    }
+
+    public static ApiResult error(ErrorData errorData) {
+        return new ApiResult(false, null, errorData);
     }
 }

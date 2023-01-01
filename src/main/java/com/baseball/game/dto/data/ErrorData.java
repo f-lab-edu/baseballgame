@@ -1,6 +1,5 @@
-package com.baseball.game.ui.dto;
+package com.baseball.game.dto.data;
 
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -9,8 +8,7 @@ public class ErrorData {
     private final String code;
     private final String message;
 
-    @Builder
-    private ErrorData(String code, String message) {
+    public ErrorData(String code, String message) {
         this.code = code;
         this.message = message;
     }

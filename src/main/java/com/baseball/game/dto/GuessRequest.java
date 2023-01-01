@@ -1,4 +1,4 @@
-package com.baseball.game.ui.dto;
+package com.baseball.game.dto;
 
 import lombok.Builder;
 import lombok.Getter;

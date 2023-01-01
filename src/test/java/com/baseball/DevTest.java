@@ -2,6 +2,8 @@ package com.baseball;
 
 import org.junit.jupiter.api.Test;
 
+import com.baseball.game.domain.play.Computer;
+
 public class DevTest {
 
     @Test
@@ -39,6 +41,27 @@ public class DevTest {
 
         //then
         System.out.println("ball = " + ball);
+    }
+
+    @Test
+    void split() {
+        String result = "0,0,3";
+        String[] tmp = result.split(",");
+        for (String s : tmp) {
+            System.out.println("s = " + s);
+        }
+    }
+
+    @Test
+    void randomAnswerList() {
+        Computer computer = new Computer();
+        System.out.println("computer answer = " + computer.generateOfAnswer());
+    }
+
+    @Test
+    void randomAnswerString() {
+        Computer computer = new Computer();
+        System.out.println("computer answer = " + computer.generateOfStrAnswer());
     }
 
 
