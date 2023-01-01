@@ -10,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class HistoryData {
 
     @JsonProperty("answer")
-    private String playerAnswer;
+    private final String playerAnswer;
     @JsonProperty("result")
-    private ResultData resultData;
+    private final ResultData resultData;
 
     public HistoryData(String playerAnswer, int strike, int ball, int out) {
         this.playerAnswer = playerAnswer;
@@ -22,9 +22,9 @@ public class HistoryData {
     @Getter
     @ToString
     class ResultData {
-        private int strike;
-        private int ball;
-        private int out;
+        private final int strike;
+        private final int ball;
+        private final int out;
 
         public ResultData(int strike, int ball, int out) {
             this.strike = strike;

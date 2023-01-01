@@ -46,12 +46,12 @@ public class Computer {
     }
 
     public GameData judgeAnswer(GameData gameData) {
-        createGuessData(gameData);
+        createGuessDataAndCounting(gameData);
         createHistoryData(gameData);
         return gameData;
     }
 
-    private void createGuessData(GameData gameData) {
+    private void createGuessDataAndCounting(GameData gameData) {
         GuessData guessData = new GuessData();
         guessData.setStrike(countingStrike(gameData.getComputerAnswer(), gameData.getPlayerAnswer()));
         guessData.setBall(countingBall(gameData.getComputerAnswer(), gameData.getPlayerAnswer()) - guessData.getStrike());

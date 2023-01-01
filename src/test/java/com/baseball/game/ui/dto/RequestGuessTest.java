@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RequestGuessTest {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-    private boolean isPrint = false;
+    private boolean isPrint = true;
 
     @Test
     @DisplayName("빈 값 체크")
