@@ -67,7 +67,7 @@ public class Computer {
     }
 
     private boolean isGameOver(GameData gameData) {
-        return gameData.getGuessData().getStrike() == 3 ? true : false;
+        return gameData.getGuessData().getStrike() == 3 ? true : gameData.getGuessData().getRemainingCount() == 0 ? true : false;
     }
 
     private int countingStrike(String computerAnswer, String playerAnswer) {
