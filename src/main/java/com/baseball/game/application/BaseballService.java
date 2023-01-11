@@ -9,13 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.baseball.game.domain.exception.DataNotFoundException;
 import com.baseball.game.domain.exception.GameOverException;
-import com.baseball.game.domain.play.BaseballRepository;
 import com.baseball.game.domain.play.Computer;
-import com.baseball.game.dto.GameSearchDto;
-import com.baseball.game.dto.data.GameData;
-import com.baseball.game.dto.data.GameResultData;
-import com.baseball.game.dto.data.GuessData;
-import com.baseball.game.dto.data.HistoryData;
+import com.baseball.game.domain.play.dto.GameDto;
+import com.baseball.game.domain.play.dto.GameResultDto;
+import com.baseball.game.domain.play.dto.GuessDto;
+import com.baseball.game.domain.play.dto.HistoryDto;
+import com.baseball.game.domain.play.mapstruct.GameMapper;
+import com.baseball.game.infrastruture.JpaBaseballRepository;
+import com.baseball.game.ui.dto.GameSearchDto;
 import com.baseball.global.domain.ErrorCode;
 
 @Slf4j
@@ -23,50 +24,57 @@ import com.baseball.global.domain.ErrorCode;
 @RequiredArgsConstructor
 public class BaseballService {
 
-    private final BaseballRepository baseballRepository;
+    private final GameMapper gameMapper;
+    private final JpaBaseballRepository baseballRepository;
     private final Computer computer;
 
-    public GameData getGameId() {
-        return baseballRepository.saveGameId(computer.generateOfStrAnswer());
+    public GameDto getGameId() {
+        return gameMapper.toDto(baseballRepository.saveGameId(computer.generateOfStrAnswer()));
     }
 
-    public GuessData checkAnswer(GameSearchDto gameSearchDto) {
-        GameData gameData = validBaseballGame(gameSearchDto);
-        computer.judgeAnswer(gameData);
-        baseballRepository.saveHistoryData(gameData);
-        baseballRepository.updateGameData(gameData);
-        return gameData.getGuessData();
+    public GuessDto checkAnswer(GameSearchDto gameSearchDto) {
+        GameDto gameDto = validBaseballGame(gameSearchDto);
+        computer.judgeAnswer(gameDto);
+        baseballRepository.saveHistoryData(gameDto);
+        baseballRepository.updateGameData(gameMapper.toEntity(gameDto));
+        return gameDto.getGuessDto();
     }
 
-    public List<HistoryData> getHistory(long gameId) {
+    public List<HistoryDto> getHistory(long gameId) {
+        validBaseBallGame(gameId);
         return baseballRepository.findByHistory(gameId);
     }
 
-    public GameResultData getGameResult(long gameId) {
-        GameResultData gameResultData = new GameResultData();
-        gameResultData.setAnswerCount(baseballRepository.findByHistory(gameId).size());
-        return gameResultData;
+    public GameResultDto getGameResult(long gameId) {
+        validBaseBallGame(gameId);
+        GameResultDto gameResultDto = new GameResultDto();
+        gameResultDto.setAnswerCount(baseballRepository.findByHistory(gameId).size());
+        return gameResultDto;
     }
 
-    private GameData validBaseballGame(GameSearchDto gameSearchDto) {
+    private GameDto validBaseballGame(GameSearchDto gameSearchDto) {
 
-        GameData gameData = baseballRepository.findByGameId(gameSearchDto);
+        GameDto gameDto = validBaseBallGame(gameSearchDto.getGameId());
 
-        if (gameData == null) {
-            throw new DataNotFoundException(ErrorCode.DATA_NOT_FOUND);
-        }
+        log.info("Computer Answer [{}], Player Answer [{}]", gameDto.getComputerAnswer(), gameSearchDto.getPlayerAnswer());
 
-        if (gameData.isGameOver()) {
+        gameDto.setPlayerAnswer(gameSearchDto.getPlayerAnswer());
+        gameDto.setHistoryData(baseballRepository.findByHistory(gameSearchDto.getGameId()));
+
+        return gameDto;
+    }
+
+    private GameDto validBaseBallGame(Long gameId) {
+
+        GameDto gameDto = gameMapper.toDto(baseballRepository.findByGameId(gameId)
+                .orElseThrow(() -> new DataNotFoundException(ErrorCode.GAMEID_NOT_FOUND)));
+
+        if (gameDto.isGameOver()) {
             throw new GameOverException(ErrorCode.CLOSED_GAME);
         }
 
+        return gameDto;
 
-        log.info("Computer Answer [{}], Player Answer [{}]", gameData.getComputerAnswer(), gameSearchDto.getPlayerAnswer());
-
-        gameData.setPlayerAnswer(gameSearchDto.getPlayerAnswer());
-        gameData.setHistoryData(baseballRepository.findByHistory(gameSearchDto.getGameId()));
-
-        return gameData;
     }
 
 }

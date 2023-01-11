@@ -1,18 +1,21 @@
-package com.baseball.game.dto.data;
+package com.baseball.global.domain.dto;
 
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.validation.FieldError;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Slf4j
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class ErrorData {
+public class ErrorDto {
 
     private final String code;
     private final String message;

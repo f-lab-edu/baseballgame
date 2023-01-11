@@ -1,4 +1,4 @@
-package com.baseball.game.dto.data;
+package com.baseball.game.domain.play.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import com.baseball.global.domain.BaseballConstants;
 @Getter
 @Setter
 @ToString
-public class GameResultData {
+public class GameResultDto {
     private int remainingCount;
     private int answerCount;
 

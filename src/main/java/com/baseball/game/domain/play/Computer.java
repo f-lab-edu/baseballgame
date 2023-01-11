@@ -8,9 +8,9 @@ import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
-import com.baseball.game.dto.data.GameData;
-import com.baseball.game.dto.data.GuessData;
-import com.baseball.game.dto.data.HistoryData;
+import com.baseball.game.domain.play.dto.GameDto;
+import com.baseball.game.domain.play.dto.GuessDto;
+import com.baseball.game.domain.play.dto.HistoryDto;
 import com.baseball.global.domain.BaseballConstants;
 
 @Slf4j
@@ -45,29 +45,29 @@ public class Computer {
         return computerAnswer;
     }
 
-    public GameData judgeAnswer(GameData gameData) {
-        createGuessDataAndCounting(gameData);
-        createHistoryData(gameData);
-        return gameData;
+    public GameDto judgeAnswer(GameDto gameDto) {
+        createGuessDataAndCounting(gameDto);
+        createHistoryData(gameDto);
+        return gameDto;
     }
 
-    private void createGuessDataAndCounting(GameData gameData) {
-        GuessData guessData = new GuessData();
-        guessData.setStrike(countingStrike(gameData.getComputerAnswer(), gameData.getPlayerAnswer()));
-        guessData.setBall(countingBall(gameData.getComputerAnswer(), gameData.getPlayerAnswer()) - guessData.getStrike());
-        guessData.setRemainingCount(BaseballConstants.MAX_ANSWER - (gameData.getHistoryData().size() + 1));
-        gameData.setGuessData(guessData);
-        gameData.setGameOver(isGameOver(gameData));
+    private void createGuessDataAndCounting(GameDto gameDto) {
+        GuessDto guessDto = new GuessDto();
+        guessDto.setStrike(countingStrike(gameDto.getComputerAnswer(), gameDto.getPlayerAnswer()));
+        guessDto.setBall(countingBall(gameDto.getComputerAnswer(), gameDto.getPlayerAnswer()) - guessDto.getStrike());
+        guessDto.setRemainingCount(BaseballConstants.MAX_ANSWER - (gameDto.getHistoryData().size() + 1));
+        gameDto.setGuessDto(guessDto);
+        gameDto.setGameOver(isGameOver(gameDto));
     }
 
-    private void createHistoryData(GameData gameData) {
-        gameData.getHistoryData().add(
-                new HistoryData(gameData.getPlayerAnswer(), gameData.getGuessData().getStrike(), gameData.getGuessData().getBall(), gameData.getGuessData().getOut())
+    private void createHistoryData(GameDto gameDto) {
+        gameDto.getHistoryData().add(
+                new HistoryDto(gameDto.getPlayerAnswer(), gameDto.getGuessDto().getStrike(), gameDto.getGuessDto().getBall(), gameDto.getGuessDto().getOut())
         );
     }
 
-    private boolean isGameOver(GameData gameData) {
-        return gameData.getGuessData().getStrike() == 3 ? true : gameData.getGuessData().getRemainingCount() == 0 ? true : false;
+    private boolean isGameOver(GameDto gameDto) {
+        return gameDto.getGuessDto().getStrike() == 3 ? true : gameDto.getGuessDto().getRemainingCount() == 0 ? true : false;
     }
 
     private int countingStrike(String computerAnswer, String playerAnswer) {

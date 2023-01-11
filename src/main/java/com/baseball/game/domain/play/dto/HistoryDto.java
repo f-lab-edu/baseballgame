@@ -1,4 +1,4 @@
-package com.baseball.game.dto.data;
+package com.baseball.game.domain.play.dto;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Getter
 @ToString
-public class HistoryData {
+public class HistoryDto {
 
     @JsonProperty("answer")
     private final String playerAnswer;
     @JsonProperty("result")
     private final ResultData resultData;
 
-    public HistoryData(String playerAnswer, int strike, int ball, int out) {
+    public HistoryDto(String playerAnswer, int strike, int ball, int out) {
         this.playerAnswer = playerAnswer;
         this.resultData = new ResultData(strike, ball, out);
     }

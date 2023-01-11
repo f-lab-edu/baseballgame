@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.baseball.game.application.BaseballService;
-import com.baseball.game.dto.data.GameData;
+import com.baseball.game.domain.play.dto.GameDto;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -31,12 +31,12 @@ class BaseballControllerTest {
     @Test
     @DisplayName("게임 시작 후 gameId 잘가져오는지 확인")
     void gameStartTest() throws Exception {
-        GameData gameData = new GameData();
-        gameData.setGameId(123L);
+        GameDto gameDto = new GameDto();
+        gameDto.setGameId(123L);
 
         //given
         given(baseballService.getGameId())
-                .willReturn(gameData);
+                .willReturn(gameDto);
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/game/start")
                 .contentType(MediaType.APPLICATION_JSON)

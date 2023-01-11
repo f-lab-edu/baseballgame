@@ -1,13 +1,14 @@
 package com.baseball.game.domain.play.repository;
 
-import com.baseball.game.dto.data.GameData;
+import com.baseball.game.domain.play.dto.GameDto;
+import com.baseball.game.domain.play.dto.entity.GameEntity;
 
 public interface BaseballRepository {
 
-    GameData saveGameId(String computerAnswer);
+    GameEntity saveGameId(String computerAnswer);
 
-    GameData updateGameData(GameData gameData);
+    GameEntity updateGameData(GameEntity gameEntity);
 
-    int saveHistoryData(GameData gameData);
+    int saveHistoryData(GameDto gameDto);
 
 }

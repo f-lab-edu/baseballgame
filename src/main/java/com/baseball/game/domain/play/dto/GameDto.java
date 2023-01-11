@@ -1,4 +1,4 @@
-package com.baseball.game.dto.data;
+package com.baseball.game.domain.play.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Getter
 @Setter
 @ToString
-public class GameData {
+public class GameDto {
 
     @JsonProperty("gameId")
     private Long gameId;
@@ -28,9 +28,9 @@ public class GameData {
     private boolean gameOver;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private GuessData guessData;
+    private GuessDto guessDto;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<HistoryData> historyData;
+    private List<HistoryDto> historyData;
 
 }

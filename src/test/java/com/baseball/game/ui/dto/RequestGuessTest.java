@@ -9,8 +9,6 @@ import javax.validation.Validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.baseball.game.dto.GuessRequest;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class RequestGuessTest {

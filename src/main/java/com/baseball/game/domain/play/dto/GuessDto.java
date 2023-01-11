@@ -1,4 +1,4 @@
-package com.baseball.game.dto.data;
+package com.baseball.game.domain.play.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GuessData {
+public class GuessDto {
 
     private boolean correct;
     private int remainingCount;
