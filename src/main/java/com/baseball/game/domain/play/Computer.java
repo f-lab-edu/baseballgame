@@ -1,4 +1,11 @@
 package com.baseball.game.domain.play;
 
-public class Computer {
+import java.util.List;
+
+public interface Computer {
+
+    List<Integer> getGenerateOfAnswerList();
+
+    String getGenerateOfAnswerStr();
+
 }

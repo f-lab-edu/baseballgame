@@ -1,14 +1,20 @@
 package com.baseball.game.ui.dto;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Getter;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@NoArgsConstructor
 @Getter
-public class RequestGuess {
+@ToString
+public class GuessRequest {
 
     @NotBlank(message = "정답을 입력해주세요")
     @Size(min = 3, max = 3, message = "3자리의 숫자만 입력해주세요")
@@ -17,7 +23,7 @@ public class RequestGuess {
     private String playerNumber;
 
     @Builder
-    private RequestGuess(String playerNumber) {
+    private GuessRequest(String playerNumber) {
         this.playerNumber = playerNumber;
     }
 }
