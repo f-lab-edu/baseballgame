@@ -29,12 +29,12 @@ public class BaseballService {
     private final Computer computer;
 
     public GameDto getGameId() {
-        return gameMapper.toDto(baseballRepository.saveGameId(computer.generateOfStrAnswer()));
+        return gameMapper.toDto(baseballRepository.saveGameId(computer.getGenerateOfAnswerStr()));
     }
 
     public GuessDto checkAnswer(GameSearchDto gameSearchDto) {
         GameDto gameDto = validBaseballGame(gameSearchDto);
-        computer.judgeAnswer(gameDto);
+        gameDto.judgeAnswer(gameDto);
         baseballRepository.saveHistoryData(gameDto);
         baseballRepository.updateGameData(gameMapper.toEntity(gameDto));
         return gameDto.getGuessDto();
@@ -53,28 +53,21 @@ public class BaseballService {
     }
 
     private GameDto validBaseballGame(GameSearchDto gameSearchDto) {
-
         GameDto gameDto = validBaseBallGame(gameSearchDto.getGameId());
-
-        log.info("Computer Answer [{}], Player Answer [{}]", gameDto.getComputerAnswer(), gameSearchDto.getPlayerAnswer());
-
+        if (gameDto.isGameOver()) {
+            throw new GameOverException(ErrorCode.CLOSED_GAME);
+        }
         gameDto.setPlayerAnswer(gameSearchDto.getPlayerAnswer());
         gameDto.setHistoryData(baseballRepository.findByHistory(gameSearchDto.getGameId()));
 
+        log.info("Computer Answer [{}], Player Answer [{}]", gameDto.getComputerAnswer(), gameSearchDto.getPlayerAnswer());
         return gameDto;
     }
 
     private GameDto validBaseBallGame(Long gameId) {
-
         GameDto gameDto = gameMapper.toDto(baseballRepository.findByGameId(gameId)
                 .orElseThrow(() -> new DataNotFoundException(ErrorCode.GAMEID_NOT_FOUND)));
-
-        if (gameDto.isGameOver()) {
-            throw new GameOverException(ErrorCode.CLOSED_GAME);
-        }
-
         return gameDto;
-
     }
 
 }
