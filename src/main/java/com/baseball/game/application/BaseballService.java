@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.baseball.game.domain.exception.DataNotFoundException;
+import com.baseball.game.domain.exception.GameIdNotFoundException;
 import com.baseball.game.domain.exception.GameOverException;
 import com.baseball.game.domain.play.Computer;
 import com.baseball.game.domain.play.dto.GameDto;
@@ -66,7 +66,7 @@ public class BaseballService {
 
     private GameDto validBaseBallGame(Long gameId) {
         GameDto gameDto = gameMapper.toDto(baseballRepository.findByGameId(gameId)
-                .orElseThrow(() -> new DataNotFoundException(ErrorCode.GAMEID_NOT_FOUND)));
+                .orElseThrow(() -> new GameIdNotFoundException(ErrorCode.GAMEID_NOT_FOUND)));
         return gameDto;
     }
 
