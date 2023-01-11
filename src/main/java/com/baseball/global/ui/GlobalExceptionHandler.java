@@ -20,8 +20,8 @@ public class GlobalExceptionHandler {
 
     // Validation 에러
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<ApiResult> handle(BindException e) {
-        List<ErrorData.ValidationError> validationErrorList = e.getBindingResult()
+    public ResponseEntity<ApiResult> handle(BindException bindException) {
+        List<ErrorData.ValidationError> validationErrorList = bindException.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(ErrorData.ValidationError::of)
@@ -31,17 +31,17 @@ public class GlobalExceptionHandler {
 
     // 커스텀 에러
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiResult> handle(BusinessException e) {
+    public ResponseEntity<ApiResult> handle(BusinessException businessException) {
         ErrorData errorData = ErrorData.builder()
-                .code(e.getErrorCode().getCode())
-                .message(e.getErrorCode().getMessage())
+                .code(businessException.getErrorCode().getCode())
+                .message(businessException.getErrorCode().getMessage())
                 .build();
-        return new ResponseEntity(ApiResult.error(errorData), e.getErrorCode().getHttpStatus());
+        return new ResponseEntity(ApiResult.error(errorData), businessException.getErrorCode().getHttpStatus());
     }
 
     // 예기치 못한 에러
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResult> handle(Exception e) {
+    public ResponseEntity<ApiResult> handle(Exception exception) {
         return new ResponseEntity(ApiResult.error(getErrorData(ErrorCode.INVALID_PARAMETER)), ErrorCode.INVALID_PARAMETER.getHttpStatus());
     }
 

@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.baseball.game.domain.exception.DataNotFoundException;
+import com.baseball.game.domain.exception.GameOverException;
 import com.baseball.game.domain.play.BaseballRepository;
 import com.baseball.game.domain.play.Computer;
 import com.baseball.game.dto.GameSearchDto;
@@ -14,8 +16,6 @@ import com.baseball.game.dto.data.GameData;
 import com.baseball.game.dto.data.GameResultData;
 import com.baseball.game.dto.data.GuessData;
 import com.baseball.game.dto.data.HistoryData;
-import com.baseball.game.exception.DataNotFoundException;
-import com.baseball.game.exception.GameOverException;
 import com.baseball.global.domain.ErrorCode;
 
 @Slf4j
@@ -59,6 +59,7 @@ public class BaseballService {
         if (gameData.isGameOver()) {
             throw new GameOverException(ErrorCode.CLOSED_GAME);
         }
+
 
         log.info("Computer Answer [{}], Player Answer [{}]", gameData.getComputerAnswer(), gameSearchDto.getPlayerAnswer());
 

@@ -22,7 +22,11 @@ import com.baseball.game.dto.GuessRequest;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/game", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(
+        value = "/game",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 public class BaseballController {
 
     private final BaseballService baseballService;
